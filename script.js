@@ -1,4 +1,4 @@
-
+const API_KEY = '00f986e7e3d6f562b26365c4fa5f1444';
 const searchBtn = document.getElementById('searchBtn');
 const cityInput = document.getElementById('cityInput');
 const weatherDisplay = document.getElementById('weatherDisplay');
@@ -8,7 +8,7 @@ searchBtn.addEventListener('click', async () => {
 
   if (city === '') {
     alert('Please enter a city name');
-    return;
+    return; 
   }
 
   try {
@@ -21,7 +21,7 @@ searchBtn.addEventListener('click', async () => {
 });
 
 async function getWeatherData(city) {
-  const response = await fetch(`https://api.weatherbit.io/v2.0/current?city=${city}&key=${API_KEY}`);
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`);
   const data = await response.json();
 
   if (response.ok) {
@@ -32,9 +32,9 @@ async function getWeatherData(city) {
 }
 
 function displayWeather(weatherData) {
-  const cityName = weatherData.data[0].city_name;
-  const temperature = weatherData.data[0].temp;
-  const weatherDescription = weatherData.data[0].weather.description;
+  const cityName = weatherData.name;
+  const temperature = weatherData.main.temp;
+  const weatherDescription = weatherData.weather[0].description;
 
   weatherDisplay.innerHTML = `<strong>${cityName}</strong>: ${temperature}°C, ${weatherDescription}`;
 }
